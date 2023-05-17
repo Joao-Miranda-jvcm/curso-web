@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1"
+             xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+             
+	<persistence-unit name="curso_PU" transaction-type="RESOURCE_LOCAL">	    
+		<properties>
+		
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/curso?autoReconnect=true&amp;useSSL=false&amp;useTimezone=true&amp;serverTimezone=UTC"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="ifsp"/>			
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+			
+						
+			<!-- validate | update | create | create-drop -->
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.jdbc.time_zone" value="UTC"/>
+			
+			<property name="hibernate.c3p0.acquireIncrement" value="3" />
+			<property name="hibernate.c3p0.initialPoolSize" value="5" />
+			<property name="hibernate.c3p0.minPoolSize" value="5" />
+			<property name="hibernate.c3p0.maxPoolSize" value="20" />
+			<property name="hibernate.c3p0.maxStatements" value="50" />
+			<property name="hibernate.c3p0.maxConnectionAge" value="7200" />	
+		</properties>
+	</persistence-unit>
+
+</persistence>

@@ -1,0 +1,84 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Atletas</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Atletas</h1>
+    	
+    	<h:form id="frmPesquisa">
+    	
+    		<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton icon="fa fa-plus" value="Novo" id="botaoNovo" action="/atleta/CadastroAtleta.xhtml"/>
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:dataTable id="atletasTable" value="#{pesquisaAtletaBean.atletas}" var="atleta"
+		    		style="margin-top: 20px" emptyMessage="Nenhum atleta encontrado." rows="10"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+		    		lazy="false" rowsPerPageTemplate="5,10,15">		    		
+	    		
+	    		<p:column headerText="Nome" style="text-align: left; width: 120px"
+	    			sortBy="#{atleta.nome}" filterBy="#{atleta.nome}">
+	    			<h:outputText value="#{atleta.nome}" />
+	    		</p:column>    		
+	    		
+	    		<p:column headerText="Email" style="text-align: center; width: 120px">
+	    			<h:outputText value="#{atleta.email}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Telefone" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{atleta.telefone}" />
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Data Nascimento" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{atleta.dataNascimento}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Sexo" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{atleta.sexo}" />
+	    		</p:column>	    		
+	    		
+	    		<p:column headerText="Clube" style="width: 40px; text-align: center"
+	    			filterBy="#{atleta.clube.sigla}">
+	    			<h:outputText value="#{atleta.clube.sigla}" />
+	    		</p:column>	    		
+	    			
+	    		
+	    		<p:column style="width: 60px; text-align: center">
+		    		<p:button outcome="CadastroAtleta" icon="fa fa-edit" title="Editar">
+		    			<f:param name="atleta" value="#{atleta.codigo}"/>
+		    		</p:button>
+		    		<p:commandButton icon="fa fa-trash-o" title="Excluir" 		    				
+		    				onclick="PF('confirmacaoExclusao').show();"
+							process="@this" 
+							>
+						<f:setPropertyActionListener target="#{pesquisaAtletaBean.atletaSelecionado}" value="#{atleta}" />
+					</p:commandButton>
+		    	</p:column>
+		   	</p:dataTable>
+		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir a atleta #{pesquisaAtletaBean.atletaSelecionado.nome}?"  
+	                header="Exclusão de atleta" severity="alert">
+	        	<p:button icon="fa fa-thumbs-o-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="fa fa-thumbs-o-up" value="Sim" 
+	        		update=":frmPesquisa:atletasTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaAtletaBean.excluir}" />
+	    	</p:confirmDialog>
+    	</h:form>
+    </ui:define>
+</ui:composition>
