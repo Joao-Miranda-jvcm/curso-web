@@ -19,7 +19,7 @@
     		
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton icon="fa fa-plus" value="Novo" id="botaoNovo" action="/atleta/CadastroAtleta.xhtml"/>
+	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" action="/atleta/CadastroAtleta.xhtml"/>
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
@@ -58,10 +58,10 @@
 	    			
 	    		
 	    		<p:column style="width: 60px; text-align: center">
-		    		<p:button outcome="CadastroAtleta" icon="fa fa-edit" title="Editar">
+		    		<p:button outcome="CadastroAtleta" icon="pi pi-pencil" title="Editar">
 		    			<f:param name="atleta" value="#{atleta.codigo}"/>
 		    		</p:button>
-		    		<p:commandButton icon="fa fa-trash-o" title="Excluir" 		    				
+		    		<p:commandButton icon="pi pi-trash" title="Excluir" 		    				
 		    				onclick="PF('confirmacaoExclusao').show();"
 							process="@this" 
 							>
@@ -73,9 +73,9 @@
 		   			widgetVar="confirmacaoExclusao"
 	        		message="Tem certeza que deseja excluir a atleta #{pesquisaAtletaBean.atletaSelecionado.nome}?"  
 	                header="Exclusão de atleta" severity="alert">
-	        	<p:button icon="fa fa-thumbs-o-down" value="Não" 
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	        	<p:commandButton icon="fa fa-thumbs-o-up" value="Sim" 
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
 	        		update=":frmPesquisa:atletasTable"
 	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaAtletaBean.excluir}" />
 	    	</p:confirmDialog>

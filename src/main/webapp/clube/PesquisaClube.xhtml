@@ -19,7 +19,7 @@
     		
 	    	<p:toolbar style="margin-top: 20px">
 	    		<p:toolbarGroup>
-	    			<p:commandButton icon="fa fa-plus" value="Novo" id="botaoNovo" 
+	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
 	    				action="/clube/CadastroClube.xhtml"/>	    				    			
 	    			
 	    		</p:toolbarGroup>
@@ -41,10 +41,10 @@
 	    		</p:column>
 	    		
 	    		<p:column style="width: 100px; text-align: center">
-		    		<p:button outcome="CadastroClube" icon="fa fa-edit" title="Editar">
+		    		<p:button outcome="CadastroClube" icon="pi pi-pencil" title="Editar">
 		    			<f:param name="clube" value="#{clube.codigo}"/>
 		    		</p:button>
-		    		<p:commandButton icon="fa fa-trash-o" title="Excluir" 		    				
+		    		<p:commandButton icon="pi pi-trash" title="Excluir" 		    				
 		    				onclick="PF('confirmacaoExclusao').show();"
 							process="@this" 
 							>
@@ -56,9 +56,9 @@
 		   			widgetVar="confirmacaoExclusao"
 	        		message="Tem certeza que deseja excluir a clube #{pesquisaClubeBean.clubeSelecionado.sigla}?"  
 	                header="Exclusão de clube" severity="alert">
-	        	<p:button icon="fa fa-thumbs-o-down" value="Não" 
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
 	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
-	        	<p:commandButton icon="fa fa-thumbs-o-up" value="Sim" 
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
 	        		update=":frmPesquisa:clubesTable"
 	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaClubeBean.excluir}" />
 	    	</p:confirmDialog>
