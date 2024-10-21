@@ -1,5 +1,6 @@
 package com.curso.modelo;
 
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -16,8 +17,9 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+import com.curso.modelo.enums.Role;
 import com.curso.modelo.enums.Sexo;
+
 
 @Entity
 @NamedQueries({
@@ -33,7 +35,8 @@ public class Atleta {
 	private String telefone;
 	private Date dataNascimento;
 	private Sexo Sexo;	
-	private Clube clube;	
+	private Clube clube;
+	private Role Role;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -66,7 +69,7 @@ public class Atleta {
 		this.telefone = telefone;
 	}
 	
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
@@ -84,6 +87,14 @@ public class Atleta {
 	}
 	public void setSexo(Sexo sexo) {
 		Sexo = sexo;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public Role getRole() {
+		return Role;
+	}
+	public void setRole(Role role) {
+		Role = role;
 	}
 	
 	

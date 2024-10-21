@@ -25,10 +25,14 @@ public class AtletaDAO implements Serializable {
 	@Transactional
 	public void salvar(Atleta atleta) throws NegocioException {
 		try {
-			manager.merge(atleta);
-		} catch (ConstraintViolationException e) {
-			throw new NegocioException("Violação de restrição, provavelmente e-mail já existe.");
-		}
+	        manager.merge(atleta);
+	    } catch (PersistenceException e) {
+	        Throwable cause = e.getCause();
+	        if (cause instanceof ConstraintViolationException) {
+	            throw new NegocioException("Violação de restrição, provavelmente e-mail já existe.");
+	        }
+	        throw new NegocioException("Erro ao salvar o atleta.");
+	    }
 	}
 	
 	@Transactional

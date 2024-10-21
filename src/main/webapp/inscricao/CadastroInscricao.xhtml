@@ -1,0 +1,237 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+	<ui:define name="titulo">Inscrição</ui:define>
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<o:viewParam name="inscricao"
+				value="#{cadastroInscricaoBean.inscricao}" />
+		</f:metadata>
+
+		<h1>Inscrição</h1>
+
+		<h:form id="frmCadastro">
+
+			<p:messages id="messages" showDetail="false" closable="true">
+				<p:autoUpdate />
+			</p:messages>
+
+			<p:defaultCommand target="botaoSalvar" />
+
+			<p:toolbar style="margin-top: 20px">
+				<p:toolbarGroup>
+					<p:commandButton value="Salvar" id="botaoSalvar" icon="pi pi-save"
+						action="#{cadastroInscricaoBean.salvar}"
+						update="frmCadastro,atletaPainel,categoriaPainel" />
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:button icon="pi pi-search" value="Pesquisar"
+						outcome="/inscricao/PesquisaInscricao.xhtml" />
+				</p:toolbarGroup>
+			</p:toolbar>
+
+
+			<p:panelGrid columns="2" id="painel"
+				style="width: 100%; margin-top: 20px" columnClasses="rotulo, campo">
+
+				<p:outputLabel value="Código" for="codigo" />
+				<p:inputText id="codigo" size="20" maxlength="20"
+					value="#{cadastroInscricaoBean.inscricao.codigo}" readonly="true" />
+
+				<p:outputLabel value="Atleta" for="atletaPainel" />
+				<h:panelGrid columns="2" id="atletaPainel">
+
+					<p:panel header="Selecionar atleta" toggleable="true"
+						collapsed="true">
+						<h:panelGroup id="atletaSelecionarPainel"
+							rendered="#{!cadastroInscricaoBean.cadastroAtletaAtivo}">
+							<p:outputLabel value="Atleta" for="atleta" />
+							<p:selectOneMenu id="atleta" required="true"
+								value="#{cadastroInscricaoBean.inscricao.atleta}"
+								validatorMessage="O atleta é obrigatório." filter="true"
+								disabled="#{cadastroInscricaoBean.cadastroAtletaAtivo}">
+								<f:selectItem itemLabel="Selecione o atleta" />
+								<f:selectItems value="#{cadastroInscricaoBean.atletas}"
+									var="atleta" itemLabel="#{atleta.nome}" itemValue="#{atleta}" />
+							</p:selectOneMenu>
+
+
+						</h:panelGroup>
+
+					</p:panel>
+					<p:panel header="Cadastrar atleta" toggleable="true"
+						collapsed="true">
+						<p:ajax event="toggle"
+							listener="#{cadastroInscricaoBean.onPainelAtletaToggled}"
+							update="atletaCadastrarPainel,atletaPainel" />
+						<h:panelGrid columns="2" id="atletaCadastrarPainel"
+							columnClasses="rotulo, campo"
+							disabled="#{!cadastroInscricaoBean.cadastroAtletaAtivo}"
+							rendered="#{cadastroInscricaoBean.cadastroAtletaAtivo}">
+
+							<p:outputLabel value="Código" for="codigoAtleta" />
+							<p:inputText id="codigoAtleta" size="20" maxlength="20"
+								value="#{cadastroInscricaoBean.atleta.codigo}" readonly="true" />
+
+
+							<p:outputLabel value="Nome" for="nomeAtleta" />
+							<p:inputText id="nomeAtleta" size="60" maxlength="80"
+								value="#{cadastroInscricaoBean.atleta.nome}" required="true"
+								validatorMessage="O nome é obrigatório." />
+
+							<p:outputLabel value="Email" for="emailAtleta" />
+							<h:panelGroup>
+								<p:inputText id="emailAtleta" size="60" maxlength="80"
+									required="true" validatorMessage="O e-mail é obrigatório"
+									value="#{cadastroInscricaoBean.atleta.email}">
+									<f:validateRegex
+										pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+								</p:inputText>
+								<p:watermark for="emailAtleta" value="E-mail" />
+							</h:panelGroup>
+
+							<p:outputLabel value="Telefone" for="telAtleta" />
+							<p:inputMask id="telAtleta" size="18" maxlength="18"
+								value="#{cadastroInscricaoBean.atleta.telefone}"
+								mask="(99)99999-9999" />
+
+							<p:outputLabel value="Data de Nascimento" for="dataNascimento" />
+							<p:calendar id="dataNascimento" size="10"
+								value="#{cadastroInscricaoBean.atleta.dataNascimento}"
+								pattern="dd/MM/yyyy" />
+
+							<p:outputLabel value="Clube" for="clubeAtleta" />
+							<p:selectOneMenu id="clubeAtleta" required="true"
+								value="#{cadastroInscricaoBean.atleta.clube}"
+								validatorMessage="O clube é obrigatório.">
+								<f:selectItem itemLabel="Selecione o clube" />
+								<f:selectItems value="#{cadastroInscricaoBean.clubes}"
+									var="clube" itemLabel="#{clube.sigla}" itemValue="#{clube}" />
+							</p:selectOneMenu>
+
+
+						</h:panelGrid>
+
+					</p:panel>
+
+				</h:panelGrid>
+
+				<p:outputLabel value="Categoria" for="categoriaPainel" />
+				<h:panelGrid columns="2" id="categoriaPainel">
+					<p:panel header="Selecionar categoria" toggleable="true"
+						collapsed="true">
+						<h:panelGroup id="categoriaSelecionarPainel"
+							rendered="#{!cadastroInscricaoBean.cadastroCategoriaAtivo}">
+							<p:outputLabel value="Categoria" for="categoria" />
+							<p:selectOneMenu id="categoria" required="true"
+								value="#{cadastroInscricaoBean.inscricao.categoria}"
+								validatorMessage="O categoria é obrigatória." filter="true">
+								<f:selectItem itemLabel="Selecione a categoria" />
+								<f:selectItems value="#{cadastroInscricaoBean.categorias}"
+									var="categoria" itemLabel="#{categoria.sigla}"
+									itemValue="#{categoria}" />
+							</p:selectOneMenu>
+
+
+						</h:panelGroup>
+
+					</p:panel>
+					<p:panel header="Cadastrar categoria" toggleable="true"
+						collapsed="true">
+						<p:ajax event="toggle"
+							listener="#{cadastroInscricaoBean.onPainelCategoriaToggled}"
+							update="categoriaCadastrarPainel,categoriaPainel" />
+						<h:panelGrid columns="2" id="categoriaCadastrarPainel"
+							columnClasses="rotulo, campo"
+							disabled="#{!cadastroInscricaoBean.cadastroCategoriaAtivo}"
+							rendered="#{cadastroInscricaoBean.cadastroCategoriaAtivo}">
+							<p:outputLabel value="Código" for="codigoCategoria" />
+							<p:inputText id="codigoCategoria" size="20" maxlength="20"
+								value="#{cadastroInscricaoBean.categoria.codigo}"
+								readonly="true" />
+
+							<p:outputLabel value="Sigla" for="siglaCategoria" />
+							<p:inputText id="siglaCategoria" size="10" maxlength="10"
+								value="#{cadastroInscricaoBean.categoria.sigla}" required="true"
+								validatorMessage="A sigla é obrigatória." />
+
+							<p:outputLabel value="Nome" for="nomeCategoria" />
+							<p:inputText id="nomeCategoria" size="60" maxlength="80"
+								value="#{cadastroInscricaoBean.categoria.nome}" required="true"
+								validatorMessage="A descrição é obrigatória." />
+
+
+						</h:panelGrid>
+
+					</p:panel>
+
+				</h:panelGrid>
+
+
+
+				<p:outputLabel value="Evento" for="evento" />
+				<p:selectOneMenu id="evento" required="true"
+					value="#{cadastroInscricaoBean.inscricao.evento}"
+					validatorMessage="O evento é obrigatório." filter="true">
+					<f:selectItem itemLabel="Selecione o evento" />
+					<f:selectItems value="#{cadastroInscricaoBean.eventos}"
+						var="evento" itemLabel="#{evento.competicao.nome}"
+						itemValue="#{evento}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Status" for="status" />
+				<p:selectOneMenu id="status"
+					value="#{cadastroInscricaoBean.inscricao.status}">
+					<f:selectItem itemLabel="Selecione o status" />
+					<f:selectItems value="#{cadastroInscricaoBean.statuss}"
+						var="status" itemLabel="#{status}" itemValue="#{status}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel value="Alergia" for="alergia" />
+				<p:inputText id="alergia" size="60" maxlength="80"
+					value="#{cadastroInscricaoBean.inscricao.alergia}" />
+
+				<p:outputLabel value="Comprovante" for="comprovante" />
+				<p:inputText id="comprovante" size="20" maxlength="20"
+					value="#{cadastroInscricaoBean.inscricao.comprovante}"
+					readonly="true" />
+
+				<p:outputLabel value="Arquivo" for="arquivo" />
+				<p:inputText id="arquivo" size="20" maxlength="20"
+					value="#{cadastroInscricaoBean.inscricao.arquivo}" readonly="true" />
+
+				<p:outputLabel value="Data de inscrição" for="dataInscricao" />
+				<p:calendar id="dataInscricao" size="10"
+					value="#{cadastroInscricaoBean.inscricao.dataInscricao}"
+					pattern="dd/MM/yyyy" />
+
+				<p:outputLabel value="Contato" for="contato" />
+				<h:panelGroup>
+					<p:inputText id="contato" size="60" maxlength="80"
+						value="#{cadastroInscricaoBean.inscricao.contato}">
+						<f:validateRegex
+							pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					</p:inputText>
+					<p:watermark for="contato" value="Contato" />
+				</h:panelGroup>
+
+
+				<p:outputLabel value="Telefone" for="telefone" />
+				<p:inputMask id="telefone" size="18" maxlength="18"
+					value="#{cadastroInscricaoBean.inscricao.telefoneContato}"
+					mask="(99)99999-9999" />
+
+				<p:spacer height="10px" />
+			</p:panelGrid>
+
+		</h:form>
+	</ui:define>
+</ui:composition>

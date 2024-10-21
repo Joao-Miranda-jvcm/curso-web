@@ -42,6 +42,9 @@ public class AtletaService implements Serializable {
 	public List<Atleta> buscarPeloNome(String nome){
 		return atletaDAO.buscarPeloNome(nome);
 	}
+	public Atleta buscarPeloCodigo(Long codigo) {
+		return atletaDAO.buscarPeloCodigo(codigo);
+	}
 	
 	
 	/*

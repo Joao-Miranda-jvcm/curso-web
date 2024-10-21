@@ -1,0 +1,81 @@
+<ui:composition template="/WEB-INF/template/LayoutPadrao.xhtml"
+    xmlns="http://www.w3.org/1999/xhtml"
+ 	xmlns:h="http://xmlns.jcp.org/jsf/html"
+ 	xmlns:f="http://xmlns.jcp.org/jsf/core"
+ 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:o="http://omnifaces.org/ui">
+
+    <ui:define name="titulo">Evento</ui:define>
+    
+    <ui:define name="corpo">
+    	<h1>Eventos</h1>
+    	
+    	<h:form id="frmPesquisa">
+    	
+    		<p:messages id="messages" showDetail="false" closable="true">
+        		<p:autoUpdate />
+    		</p:messages>
+    		
+	    	<p:toolbar style="margin-top: 20px">
+	    		<p:toolbarGroup>
+	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" 
+	    				action="/evento/CadastroEvento.xhtml"/>	    				    			
+	    			
+	    		</p:toolbarGroup>
+	    	</p:toolbar>
+	    	
+	    	<p:dataTable id="eventosTable" value="#{pesquisaEventoBean.eventos}" var="evento"
+		    		style="margin-top: 20px" emptyMessage="Nenhum evento encontrado." rows="10"
+		    		paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+		    		lazy="false" rowsPerPageTemplate="5,10,15">
+		    	
+		    	<p:column headerText="Competição" style="width: 40px; text-align: center"
+	    			filterBy="#{evento.competicao.nome}">
+	    			<h:outputText value="#{evento.competicao.nome}" />
+	    		</p:column>	 
+		    	
+		    	<p:column headerText="Organizador" style="width: 200px; text-align: center">
+	    			<h:outputText value="#{evento.organizador}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Local" style="width: 100px; text-align: center">
+	    			<h:outputText value="#{evento.local}" />
+	    		</p:column>
+	    		
+	    		<p:column headerText="Etapa" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{evento.etapa}" />
+	    		</p:column>  
+	    		
+	    		<p:column headerText="Data do Evento" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{evento.data}">
+	    				<f:convertDateTime pattern="dd/MM/yyyy" />
+	    			</h:outputText>
+	    		</p:column>	
+	    			
+	    		
+	    		<p:column style="width: 100px; text-align: center">
+		    		<p:button outcome="CadastroEvento" icon="pi pi-pencil" title="Editar">
+		    			<f:param name="evento" value="#{evento.codigo}"/>
+		    		</p:button>
+		    		<p:commandButton icon="pi pi-trash" title="Excluir" 		    				
+		    				onclick="PF('confirmacaoExclusao').show();"
+							process="@this" 
+							>
+						<f:setPropertyActionListener target="#{pesquisaEventoBean.eventoSelecionado}" value="#{evento}" />
+					</p:commandButton>
+		    	</p:column>
+		   	</p:dataTable>
+		   	<p:confirmDialog id="confirmacaoExclusaoDialog" 
+		   			widgetVar="confirmacaoExclusao"
+	        		message="Tem certeza que deseja excluir o evento #{pesquisaEventoBean.eventoSelecionado.codigo}?"  
+	                header="Exclusão de evento" severity="alert">
+	        	<p:button icon="pi pi-thumbs-down" value="Não" 
+	        		onclick="PF('confirmacaoExclusao').hide(); return false;" />
+	        	<p:commandButton icon="pi pi-thumbs-up" value="Sim" 
+	        		update=":frmPesquisa:eventosTable"
+	        		onclick="PF('confirmacaoExclusao').hide();" action="#{pesquisaEventoBean.excluir}" />
+	    	</p:confirmDialog>
+    	</h:form>
+    </ui:define>
+</ui:composition>

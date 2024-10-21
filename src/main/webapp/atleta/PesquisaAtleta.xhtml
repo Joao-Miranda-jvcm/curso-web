@@ -49,7 +49,11 @@
 	    		
 	    		<p:column headerText="Sexo" style="text-align: center; width: 40px">
 	    			<h:outputText value="#{atleta.sexo}" />
-	    		</p:column>	    		
+	    		</p:column>	  
+	    		
+	    		<p:column headerText="Role" style="text-align: center; width: 40px">
+	    			<h:outputText value="#{atleta.role}" />
+	    		</p:column>  		
 	    		
 	    		<p:column headerText="Clube" style="width: 40px; text-align: center"
 	    			filterBy="#{atleta.clube.sigla}">

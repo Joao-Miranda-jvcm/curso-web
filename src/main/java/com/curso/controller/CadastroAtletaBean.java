@@ -11,6 +11,7 @@ import javax.inject.Named;
 
 import com.curso.modelo.Atleta;
 import com.curso.modelo.Clube;
+import com.curso.modelo.enums.Role;
 import com.curso.modelo.enums.Sexo;
 import com.curso.service.AtletaService;
 import com.curso.util.MessageUtil;
@@ -25,6 +26,7 @@ public class CadastroAtletaBean implements Serializable {
 	private Atleta atleta;
 	private List<Sexo> sexos;
 	private List<Clube> clubes;
+	private List<Role> roles;
 	
 	@Inject
 	private AtletaService atletaService;
@@ -48,6 +50,7 @@ public class CadastroAtletaBean implements Serializable {
 	public void inicializar(){
 		clubes = atletaService.buscarClubes();
 		sexos = Arrays.asList(Sexo.values());
+		roles = Arrays.asList(Role.values());
 		limpar();		
 	}	
 
@@ -67,7 +70,14 @@ public class CadastroAtletaBean implements Serializable {
 		return sexos;
 	}
 	
+	public List<Role> getRoles() {
+		return roles;
+	}
+	
 	public List<Clube> getClubes() {
 		return clubes;
+		
 	}
+	
+	
 }
