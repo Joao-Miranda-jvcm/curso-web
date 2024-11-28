@@ -1,6 +1,7 @@
 package com.curso.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import com.curso.dao.AtletaDAO;
@@ -52,5 +53,14 @@ public class InscricaoService implements Serializable {
 	}
 	public List<Evento> buscarEventos(){
 		return eventoDAO.buscarTodos();
+	}
+	
+	public List<Inscricao> buscarInscricoesPeriodo(Date ini,Date fim){
+		if(ini!=null)
+			if(fim != null)
+				return inscricaoDAO.buscarInscricoesPeriodo(ini, fim);
+			else 
+				return inscricaoDAO.buscarInscricoesPeriodo(ini,new Date());
+		return inscricaoDAO.buscarTodos();
 	}
 }

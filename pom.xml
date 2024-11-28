@@ -13,6 +13,7 @@
 		<java.version>11</java.version>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<itext.version>7.1.12</itext.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>		
 	</properties>
 
@@ -169,15 +170,49 @@
 		    <version>1.7.10</version>
 		    <scope>runtime</scope>
 		</dependency>
-		
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.7.28</version>
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 		<dependency>
 		    <groupId>org.apache.poi</groupId>
 		    <artifactId>poi-ooxml</artifactId>
 		    <version>3.17</version>
 		</dependency>
-		
-		
+		<!-- PDF-->
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>kernel</artifactId>
+			<version>${itext.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>io</artifactId>
+			<version>${itext.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.itextpdf</groupId>
+			<artifactId>layout</artifactId>
+			<version>${itext.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.birt.runtime.3_7_1</groupId>
+			<artifactId>com.lowagie.text</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+		<!--<dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.7</version>
+        </dependency>
+         <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>2.1.7</version>
+          </dependency>-->
+          
 	</dependencies>
 	
 

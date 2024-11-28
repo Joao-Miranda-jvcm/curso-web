@@ -1,12 +1,16 @@
 package com.curso.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.TemporalType;
+
 import org.hibernate.exception.ConstraintViolationException;
 import com.curso.modelo.Inscricao;
+import com.curso.util.DateUtils;
 import com.curso.util.NegocioException;
 import com.curso.util.jpa.Transactional;
 
@@ -61,5 +65,11 @@ public class InscricaoDAO implements Serializable{
 	public Long encontrarQuantidadeDeInscricao() {
 		return manager.createQuery("select count(i) from Inscricao i", Long.class).getSingleResult();
 	}
-
+	
+	public List<Inscricao> buscarInscricoesPeriodo(Date ini, Date fim){
+		return manager
+				.createNamedQuery("Inscricao.buscarInscricoesPeriodo",Inscricao.class)
+				.setParameter("ini",ini,TemporalType.TIMESTAMP)
+				.setParameter("fim",DateUtils.plusDay(fim),TemporalType.TIMESTAMP).getResultList();
+	}
 }

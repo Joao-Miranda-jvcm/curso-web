@@ -21,7 +21,11 @@ import com.curso.modelo.enums.Status;
 
 @Entity
 @NamedQueries({
-	@NamedQuery(name="Inscricao.buscarTodos", query="select i from Inscricao i")
+	@NamedQuery(name="Inscricao.buscarTodos", query="select i from Inscricao i"),
+	@NamedQuery(name="Inscricao.buscarInscricoesPeriodo", query="select i from Inscricao i "
+	         + "where i.dataInscricao between :ini and :fim "
+	         + "order by i.dataInscricao")
+
 })
 public class Inscricao {
 	
@@ -85,7 +89,7 @@ public class Inscricao {
 		this.arquivo = arquivo;
 	}
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDataInscricao() {
 		return dataInscricao;
 	}

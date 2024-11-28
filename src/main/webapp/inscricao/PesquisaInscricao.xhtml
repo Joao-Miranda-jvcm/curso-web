@@ -17,9 +17,44 @@
         		<p:autoUpdate />
     		</p:messages>
     		
-	    	<p:toolbar style="margin-top: 20px">
+	    	<p:toolbar id="toolbar" style="margin-top: 20px">
 	    		<p:toolbarGroup>
 	    			<p:commandButton icon="pi pi-plus" value="Novo" id="botaoNovo" action="/inscricao/CadastroInscricao.xhtml"/>
+	    			<p:spacer width="5px" />
+				
+					<p:outputLabel value="Ano" for="anoRef"/>
+					<p:spacer width="5px" />   		
+		    		<p:selectOneMenu id="anoRef" value="#{pesquisaInscricaoBean.ano}">
+		    			<f:selectItems value="#{pesquisaInscricaoBean.anos}" var="ano"
+							itemLabel="#{ano}" itemValue="#{ano}"/>
+		    		</p:selectOneMenu>
+		    		
+		    		<p:spacer width="10px" />
+		    		
+		    		<p:outputLabel value="Mês de referência" for="mesRef"/>	 
+					<p:spacer width="5px" />   		
+		    		<p:selectOneMenu id="mesRef" value="#{pesquisaInscricaoBean.mes}">
+		    			<f:selectItem itemLabel="Selecione o mês" />
+		    			<f:selectItems value="#{pesquisaInscricaoBean.meses}" var="mes" 
+							itemLabel="#{mes}" itemValue="#{mes}"/>
+		    		</p:selectOneMenu>
+		    		
+		    		<p:spacer width="10px" />
+		    		
+		    		<p:commandButton title="Inscrições" value="Consultar" icon="pi pi-search"	            		
+		            	actionListener="#{pesquisaInscricaoBean.consultarInscricoes}"
+		            	process="@this mesRef anoRef"
+		            	update="inscricoesTable toolbar">		            		            	
+	            	</p:commandButton>
+	            	
+					<p:commandButton id="showInscricao" icon="pi pi-file-pdf" title="Exportar para PDF"
+						value="Exportar para PDF"
+						rendered="#{pesquisaInscricaoBean.consultado}"
+						action="#{pesquisaInscricaoBean.showPDFInscricao}"
+						process="showInscricao" immediate="true" ajax="false"
+						update="frmPesquisa:addGrowl">
+					</p:commandButton>
+		    		
 	    		</p:toolbarGroup>
 	    	</p:toolbar>
 	    	
@@ -29,7 +64,7 @@
 		    		lazy="false" rowsPerPageTemplate="5,10,15">		    		
 	    		
 	    		<p:column headerText="Codigo" style="text-align: left; width: 40px"
-	    			sortBy="#{inscricao.codigo}" filterBy="#{inscricao.codigo}">
+	    			sortBy="#{inscricao.codigo}" filterBy="#{inscricao.codigo}" exportable="false">
 	    			<h:outputText value="#{inscricao.codigo}" />
 	    		</p:column>   
 	    		
@@ -37,7 +72,7 @@
 	    			<h:outputText value="#{inscricao.atleta.nome}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Status" style="text-align: center; width: 80px" filterBy="#{inscricao.status}" filterPlaceholder="Pesquisar Status" >
+	    		<p:column headerText="Status" style="text-align: center; width: 300px" filterBy="#{inscricao.status}" filterPlaceholder="Pesquisar Status" >
 	    			<h:outputText value="#{inscricao.status}" />
 	    		</p:column>  		
 	    		
@@ -49,11 +84,11 @@
 	    			<h:outputText value="#{inscricao.evento.competicao.nome}" />
 	    		</p:column>
 	    		
-	    		<p:column headerText="Comprovante" style="text-align: center; width: 40px">
+	    		<p:column headerText="Comprovante" style="text-align: center; width: 40px" exportable="false">
 	    			<h:outputText value="#{inscricao.comprovante}" />
 	    		</p:column>	    
 	    		
-	    		<p:column headerText="Arquivo" style="text-align: center; width: 40px">
+	    		<p:column headerText="Arquivo" style="text-align: center; width: 40px" exportable="false">
 	    			<h:outputText value="#{inscricao.arquivo}" />
 	    		</p:column>	 		
 	    		
@@ -73,7 +108,7 @@
 	        		
 	    			
 	    		
-	    		<p:column style="width: 60px; text-align: center">
+	    		<p:column style="width: 60px; text-align: center" exportable="false">
 		    		<p:button outcome="CadastroInscricao" icon="pi pi-pencil" title="Editar">
 		    			<f:param name="inscricao" value="#{inscricao.codigo}"/>
 		    		</p:button>
